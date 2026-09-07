@@ -1,6 +1,6 @@
 import { Skeleton } from "../ui/skeleton";
 
-function LoadingState({ loading = true }) {
+function LoadingState({loading = true }) {
     if (loading) {
         return (
             <div className="space-y-6">

@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { signIn } from '../serivces/authService';
+import { signIn } from '../services/authService';
 import { useForm } from 'react-hook-form';
 import { Link } from "react-router-dom";
-
+import { Button } from "@/components/ui/button";
+import LoadingState from "@/components/common/LoadingState";
 export default function LoginForm() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -21,6 +22,14 @@ export default function LoginForm() {
         }
     }
 
+    if (loading) {
+        return (
+            <LoadingState
+                title="Logging in..."
+                description="Please wait while we sign you in"
+            />
+        )
+    }
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -45,9 +54,9 @@ export default function LoginForm() {
 
                 {error && <p style={{ color: "red" }}>{error}</p>}
 
-                <button type="submit" disabled={isSubmitting}>
+                <Button type="submit" disabled={isSubmitting}>
                     {isSubmitting ? "Logging in..." : "Login"}
-                </button>
+                </Button>
 
                 <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
             </form>

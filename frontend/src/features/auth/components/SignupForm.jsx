@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signUp } from '../serivces/authService';
+import { signUp } from '../services/authService';
 import { useForm } from 'react-hook-form';
 import { Link } from "react-router-dom";
 

@@ -1,5 +1,15 @@
 import { useAuth } from '../features/auth/hooks/useAuth'
-import { signOut } from '../features/auth/serivces/authService';
+import { signOut } from '../features/auth/services/authService';
+
+import AppShell from '@/components/layout/AppShell';
+import SideBar from '@/components/layout/SideBar';
+import TopBar from '@/components/layout/TopBar';
+import PageHeader from '@/components/common/PageHeader';
+import StatCard from '@/components/common/StatCard';
+import Section from '@/components/common/Section';
+import EmptyState from '@/components/common/EmptyState';
+
+import { Button } from '@/components/ui/button';
 
 export default function Dashboard() {
     const { session, loading } = useAuth();
@@ -8,23 +18,77 @@ export default function Dashboard() {
         try {
             await signOut();
         } catch (error) {
-            console.error("Logout failed: ", error)
+            console.error("Logout failed: ", error);
         }
     }
 
-    if(loading){
+    if (loading) {
         return <p>Loading authentication....</p>
     }
+
     // if no session found navigate to login
-    if(!session){
-        return <Navigate to = "/login" replace/>
+    if (!session) {
+        return <Navigate to="/login" replace />
     }
+
     return (
-        <main>
-            <h1>Welcome to dashboard</h1>
-            <p>Logged in as {session?.user?.email}</p>
-            <button onClick={handleLogout}>Logout</button>
-        </main>
+        <AppShell
+            sidebar={<SideBar />}
+            topbar={<TopBar />}
+        >
+            <PageHeader
+                title="Dashboard"
+                description={`Welcome back ${session?.user?.email}`}
+                action={
+                    <Button onClick={handleLogout}>Logout</Button>
+                }
+            />
+
+            <div className="mt-8">
+                <p className="text-muted-fragmented">
+                    Your workout analytics will appear here
+                </p>
+            </div>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <StatCard
+                    title="Total workouts"
+                    value="0"
+                    description="No workouts yet"
+                />
+                <StatCard
+                    title="Average Form"
+                    value="-"
+                    description="Start training to see you score"
+                />
+                <StatCard
+                    title="Current streak"
+                    value="0 days"
+                    description="Keeep training"
+                />
+                <StatCard
+                    title="Total reps"
+                    value="0"
+                    description="Across all workouts"
+                />
+            </div>
+
+            <Section
+                title="Recent Workouts"
+                description="Your latest training sessions"
+            >
+                <EmptyState
+                    title="No Workouts yet"
+                    description="Complete your first workout and your activity will appear here"
+                    action={
+                        <Button>
+                            Start workout
+                        </Button>
+                    }
+                />
+            </Section>
+        </AppShell>
+
     )
 }
 
