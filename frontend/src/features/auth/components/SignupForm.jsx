@@ -2,6 +2,7 @@ import { useState } from "react";
 import { signUp } from '../services/authService';
 import { useForm } from 'react-hook-form';
 import { Link } from "react-router-dom";
+import LoadingState from "@/components/common/LoadingState";
 
 export default function SignupForm() {
     const [loading, setLoading] = useState(false);
@@ -11,6 +12,7 @@ export default function SignupForm() {
 
     async function onSubmit(data) {
         try {
+            setLoading(true);
             setError(null);
             setMessage("");
             const res = await signUp(data);
@@ -27,6 +29,15 @@ export default function SignupForm() {
         } finally {
             setLoading(false);
         }
+    }
+
+    if (loading) {
+        return (
+            <LoadingState
+                title="Signing up..."
+                description="Please wait while we create your account"
+            />
+        );
     }
 
     return (

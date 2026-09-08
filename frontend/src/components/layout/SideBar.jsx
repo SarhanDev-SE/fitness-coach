@@ -2,9 +2,10 @@ import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { LayoutDashboard, Dumbbell, BarChart3, User, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-const navigate = useNavigate();
 
+   
 const navigation = [
     {
         label: "Home",
@@ -14,7 +15,7 @@ const navigation = [
     },
     {
         label: "Workouts",
-        href: "/workout",
+        href: "/workouts/new",
         icon: Dumbbell,
         active: false,
     },
@@ -39,9 +40,10 @@ const navigation = [
 ];
 
 function SideBar(){
+    const navigate = useNavigate();
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 p-2">
             <div className="space-y-2">
                 <h2 className="text-lg font-semibold">Repwise</h2>
                 <p className="text-muted-foreground text-sm">Your AI fitness coach</p>
@@ -55,7 +57,14 @@ function SideBar(){
                         <Button
                             key={item.label}
                             variant={item.active ? "default" : "ghost"}
-                            onClick={() => navigate(item.href)}
+                            onClick={() => {
+                                // setting all to false
+                                navigation.map(item => item.active = false);
+                                // and then setting current one to true
+                                item.active = true;
+                                navigate(item.href); 
+                                
+                            }}
                             size="sm"
                             className="w-full justify-start gap-3"
                         >

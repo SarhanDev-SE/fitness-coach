@@ -3,10 +3,10 @@ import TopBar from "./TopBar";
 
 function AppShell({ children }) {
     return (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-background m-4 border border-border">
             <div className="flex h-full">
                 {/* sidebar */}
-                <aside className="w-64 border-r">
+                <aside className="w-64 border-r border-border p-4">
                     <SideBar />
                 </aside>
 

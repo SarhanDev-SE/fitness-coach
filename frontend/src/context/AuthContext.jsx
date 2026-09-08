@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react"
 import { supabase } from "../lib/supabase"
-
+import LoadingState from "@/components/common/LoadingState"
 // creating auth context
 export const AuthContext = createContext();
 
@@ -42,6 +42,11 @@ export function AuthProvider({ children }) {
         }
     }, [])
 
+    if(loading){
+        return(
+            <LoadingState loading={loading}/>
+        )
+    }
     return (
         <AuthContext.Provider value={{ session, loading }}>
             {children}

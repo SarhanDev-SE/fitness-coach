@@ -1,7 +1,7 @@
 import LoginForm from "../features/auth/components/LoginForm"
 import { useAuth } from "../features/auth/hooks/useAuth";
 import { Navigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Login() {
     const { session, loading } = useAuth();

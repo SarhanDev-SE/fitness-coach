@@ -13,16 +13,11 @@ function TopBar() {
 
                 {/*avatar*/}
                 <DropdownMenu>
-                    {/* dropdownmenutrigger => the button we click which triggers the dropdown*/}
-                    {/* asChild => allows us to pass custom component as the trigger*/}
-                    <DropdownMenuTrigger asChild>
-                        {/* here we pass our custom avatar component as the trigger */}
-                        <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full">
-                            <Avatar>
-                                <AvatarImage src="" />
-                                <AvatarFallback>S</AvatarFallback>
-                            </Avatar>
-                        </Button>
+                    <DropdownMenuTrigger className="relative h-10 w-10 rounded-full hover:bg-muted inline-flex items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer">
+                        <Avatar>
+                            <AvatarImage src="" />
+                            <AvatarFallback>S</AvatarFallback>
+                        </Avatar>
                     </DropdownMenuTrigger>
 
                     {/* dropdownmenucontent => the dropdown menu that gets triggered*/}

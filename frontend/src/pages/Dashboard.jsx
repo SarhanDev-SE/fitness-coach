@@ -1,5 +1,6 @@
 import { useAuth } from '../features/auth/hooks/useAuth'
 import { signOut } from '../features/auth/services/authService';
+import { Navigate } from 'react-router-dom';
 
 import AppShell from '@/components/layout/AppShell';
 import SideBar from '@/components/layout/SideBar';
@@ -7,8 +8,8 @@ import TopBar from '@/components/layout/TopBar';
 import PageHeader from '@/components/common/PageHeader';
 import StatCard from '@/components/common/StatCard';
 import Section from '@/components/common/Section';
+import LoadingState from '@/components/common/LoadingState';
 import EmptyState from '@/components/common/EmptyState';
-
 import { Button } from '@/components/ui/button';
 
 export default function Dashboard() {
@@ -23,7 +24,7 @@ export default function Dashboard() {
     }
 
     if (loading) {
-        return <p>Loading authentication....</p>
+        return <LoadingState title="Loading workout data" description="Please wait while we fetch your workout data" onAction={()=> window.location.reload()}/>
     }
 
     // if no session found navigate to login
@@ -39,9 +40,6 @@ export default function Dashboard() {
             <PageHeader
                 title="Dashboard"
                 description={`Welcome back ${session?.user?.email}`}
-                action={
-                    <Button onClick={handleLogout}>Logout</Button>
-                }
             />
 
             <div className="mt-8">
@@ -91,4 +89,6 @@ export default function Dashboard() {
 
     )
 }
+
+
 
