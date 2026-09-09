@@ -1,11 +1,11 @@
 import { supabase } from "@/lib/supabase";
-import { workoutSchema } from "../schema/workoutSchema";
+import { workoutInputSchema, workoutsSchema, workoutSchema } from "../schema/workoutSchema";
 
 // for service/api boundaries we choose between parse() and safeParse()
 
 export async function createWorkout(workoutData) {
     // if data is coming somewhere else not from WorkoutForm, we need to validate it
-    const validatedWorkoutData = workoutSchema.parse(workoutData);
+    const validatedWorkoutData = workoutInputSchema.parse(workoutData);
     // checking if authenticated user is trying to create workout
     const {
         data: { user },
@@ -39,5 +39,73 @@ export async function createWorkout(workoutData) {
     if (error) {
         throw error;
     }
+
     return data;
+}
+
+export async function getWorkouts() {
+    const {
+        data: { user },
+        error: userError
+    } = await supabase.auth.getUser();
+
+    if (userError) {
+        throw userError;
+    }
+
+    if (!user) {
+        throw new Error("You must be authenticated!#")
+    }
+
+    const { data, error } = await supabase
+        .from("workouts")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("started_at", {
+            ascending: false
+        });
+
+    if (error) {
+        throw error;
+    }
+
+    // the date we recieved is now parsed to check it validates zod schema
+    return workoutsSchema.parse(data);
+}
+
+export async function getWorkout(id) {
+    const {
+        data: { user },
+        error: userError
+    } = await supabase.auth.getUser();
+
+    if (userError) {
+        throw userError;
+    }
+
+    if (!user) {
+        throw new Error("You must be authenticated!#")
+    }
+
+    const { data, error } = await supabase
+        .from("workouts")
+        .select("*")
+        .eq("id", id)
+        .eq("user_id", user.id)
+        .single();
+
+    if (error) {
+        throw error;
+    }
+
+    // the date we recieved is now parsed to check it validates zod schema
+    return workoutSchema.parse(data);
+}
+
+export async function deleteWorkout(id) {
+    const { error } = await supabase.from("workouts").delete().eq("id", id);
+    if (error) {
+        throw error;
+    }
+    return true;
 }

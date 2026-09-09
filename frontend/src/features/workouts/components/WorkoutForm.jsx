@@ -1,13 +1,14 @@
 import { useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { workoutSchema } from "../schema/workoutSchema"
+import { workoutInputSchema } from "../schema/workoutSchema"
 import { createWorkout } from "../services/workoutService"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useNavigate } from "react-router-dom"
+
 export default function WorkoutForm() {
     const [success, setSuccess] = useState("");
     const [submitError, setSubmitError] = useState("");
@@ -19,7 +20,7 @@ export default function WorkoutForm() {
         formState: { errors, isSubmitting },
         reset,
     } = useForm({
-        resolver: zodResolver(workoutSchema),
+        resolver: zodResolver(workoutInputSchema),
         defaultValues: {
             exercise: "pushup",
             totalReps: 10,

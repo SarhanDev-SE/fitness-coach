@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-export const workoutSchema = z.object({
+// object given to the database
+export const workoutInputSchema = z.object({
     exercise: z.enum(["squat", "pushup", "plank", "lunges"]),
 
     totalReps: z
@@ -46,3 +47,20 @@ export const workoutSchema = z.object({
         .optional()
         .transform((val) => (val ? new Date(val).toISOString() : new Date().toISOString())),
 });
+
+// object recieved from the database
+export const workoutSchema = z.object({
+    id: z.string().uuid(),
+    user_id: z.string().uuid(),
+    exercise: z.enum(["squat", "pushup", "plank"]),
+    total_reps: z.number().int(),
+    avg_form_score: z.number().nullable(),
+    hold_duration_seconds: z.number().nullable(),
+    status: z.enum([
+        "active",
+        "completed",
+        "abandoned"
+    ])
+})
+
+export const workoutsSchema = z.array(workoutSchema);

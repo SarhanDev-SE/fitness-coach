@@ -3,6 +3,7 @@ import { signUp } from '../services/authService';
 import { useForm } from 'react-hook-form';
 import { Link } from "react-router-dom";
 import LoadingState from "@/components/common/LoadingState";
+import { Input } from "@/components/ui/input";
 
 export default function SignupForm() {
     const [loading, setLoading] = useState(false);
@@ -43,7 +44,7 @@ export default function SignupForm() {
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <input
+                <Input
                     type="text"
                     placeholder="Enter Display Name"
                     {...register("displayName", {
@@ -54,7 +55,7 @@ export default function SignupForm() {
                 />
                 {errors.displayName && <p>{errors.displayName.message}</p>}
 
-                <input
+                <Input
                     type="text"
                     placeholder="Email"
                     {...register("email", {
@@ -64,7 +65,7 @@ export default function SignupForm() {
                 />
                 {errors.email && <p>{errors.email.message}</p>}
 
-                <input
+                <Input
                     type="password"
                     placeholder="Password"
                     {...register("password", {
@@ -84,9 +85,9 @@ export default function SignupForm() {
                 {error && <p style={{ color: "red" }}>{error}</p>}
                 {message && <p style={{ color: "green" }}>{message}</p>}
 
-                <button type="submit" disabled={isSubmitting}>
+                <Button type="submit" disabled={isSubmitting}>
                     {isSubmitting ? "Signing Up..." : "Sign Up"}
-                </button>
+                </Button>
 
                 <p>Already have an account? <Link to="/login">Login</Link></p>
             </form>
